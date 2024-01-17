@@ -8,6 +8,7 @@ L.Geoserver = L.FeatureGroup.extend({
     zIndex: 1000,
     version: "",
     srsname: "EPSG:4326",
+    outputFormat: "geojson",
     attribution: `layer`,
     fitLayer: true,
     style: "",
@@ -61,7 +62,7 @@ L.Geoserver = L.FeatureGroup.extend({
         typename: this.options.layers,
         CQL_FILTER: this.options.CQL_FILTER,
         srsname: this.options.srsname,
-        outputFormat: "text/javascript",
+        outputFormat: this.options.outputFormat,
         format_options: "callback: getJson",
       },
 
@@ -133,7 +134,7 @@ L.Geoserver = L.FeatureGroup.extend({
   wmsImage: function () {
     var that = this;
     $.ajax({
-      url: `${that.baseLayerUrl}/ows?service=WFS&version=${that.options.version}&request=GetFeature&cql_filter=${that.options.wmsCQL_FILTER[0]}&typeName=${that.options.wmsLayers[0]}&srsName=EPSG:4326&maxFeatures=50&outputFormat=text%2Fjavascript`,
+      url: `${that.baseLayerUrl}/ows?service=WFS&version=${that.options.version}&request=GetFeature&cql_filter=${that.options.wmsCQL_FILTER[0]}&typeName=${that.options.wmsLayers[0]}&srsName=EPSG:4326&maxFeatures=50&outputFormat=${that.options.outputFormat}`,
       dataType: "jsonp",
       jsonpCallback: "parseResponse",
       success: function (data) {
